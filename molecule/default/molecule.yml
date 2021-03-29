@@ -4,7 +4,7 @@ dependency:
   name: galaxy
 driver:
   name: vagrant
-lint: "${MOLECULE_SCENARIO_DIRECTORY}/../resources/linters.sh"
+lint: "${MOLECULE_SCENARIO_DIRECTORY}/linters.sh"
 platforms:
   - name: "centos7-${INSTANCE_UUID:-1}"
     box: centos/7
@@ -94,10 +94,6 @@ provisioner:
     hosts:
       molecule_hosts:
         vars:
-          ansible_password: vagrant
-          ansible_become: yes
-          ansible_become_user: root
-          ansible_become_pass: vagrant
           parted_disks_test:
             - device: /dev/sdb
               number: 1
