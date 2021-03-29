@@ -1,2 +1,59 @@
 ---
 # Role tasks
+
+- name: create partitions
+  parted:
+    align: >-
+      {{ parted_disk.align
+         | default(parted_disks_defaults.align)
+         | default(omit) }}
+    device: >-
+      {{ parted_disk.device }}
+    flags: >-
+      {{ parted_disk.flags
+         | default(parted_disks_defaults.flags)
+         | default(omit) }}
+    label: >-
+      {{ parted_disk.lavel
+         | default(parted_disks_defaults.lavel)
+         | default(omit) }}
+    name: >-
+      {{ parted_disk.name
+         | default(parted_disks_defaults.name)
+         | default(omit) }}
+    number: >-
+      {{ parted_disk.number
+         | default(parted_disks_defaults.number)
+         | default(omit) }}
+    part_start: >-
+      {{ parted_disk.part_start
+         | default(parted_disks_defaults.part_start)
+         | default(omit) }}
+    part_end: >-
+      {{ parted_disk.part_end
+         | default(parted_disks_defaults.part_end)
+         | default(omit) }}
+    part_type: >-
+      {{ parted_disk.part_type
+         | default(parted_disks_defaults.part_type)
+         | default(omit) }}
+    state: >-
+      {{ parted_disk.state
+         | default(parted_disks_defaults.state)
+         | default(omit) }}
+    unit: >-
+      {{ parted_disk.unit
+         | default(parted_disks_defaults.unit)
+         | default(omit) }}
+  loop: "{{ parted_disks_to_manage }}"
+  loop_control:
+    loop_var: parted_disk
+    label: "{{ parted_disk.device }}{{ parted_disk.number }}"
+
+  vars:
+    parted_disks_to_manage: >-
+      {{ parted_disks
+         + ((parted_disks_load_from_hostvars | bool)
+          | ternary(parted_disks_hostvars | default([]) | flatten, [])) }}
+  tags:
+    - role::parted

@@ -2,6 +2,9 @@
 
 - name: Verify
   hosts: molecule_hosts
-  gather_facts: no
+  gather_facts: yes
   tasks:
-    - debug: msg="Verify to be done"
+    - name: Assert desired partition is created
+      assert:
+        that:
+          - ansible_facts.devices.sdb.partitions.sdb1 is defined
