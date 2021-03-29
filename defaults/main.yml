@@ -1,9 +1,9 @@
 ---
 # Role default lower priority variables
 
-# List of dicts with partitions yo need create / remove.
-# Same format that ansible parted module attributes
-# Device attribute is required
+# List of dicts with partitions yo need setup. The dicts have the same format
+# that ansible parted module attributes (device attribute is required).
+# Example:
 #
 # parted_disks:
 #   - device: /dev/sdb
@@ -23,9 +23,9 @@ parted_disks: []
 
 parted_disks_defaults: {}
 
-# Indicate `parted_disks` must be loaded also from host variables. Any host variable
-# that begins with "parted_disks_*" and contains the necessary attributes
-# will be loaded as an item to manage by the role. The variables must follow the
-# structure detailed before for `parted_disks`
+# Indicate `parted_disks` must be loaded also from host variables. Any host
+# variable that begins with "parted_disks_*" and contains the necessary
+# attributes will be loaded as an item to manage by the role. The variables must
+# follow the structure detailed before for `parted_disks`
 
 parted_disks_load_from_hostvars: no

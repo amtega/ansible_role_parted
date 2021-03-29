@@ -2,19 +2,11 @@
 
 This is an [Ansible](http://www.ansible.com) role which manage disk partitions through the parted module.
 
-## Requirements
-
-
-[Ansible 2.7+](http://docs.ansible.com/ansible/latest/intro_installation.html)
-
 ## Role Variables
->
 
 A list of all the default variables for this role is available in `defaults/main.yml`.
 
-
 ## Usage
-
 
 This is an example playbook:
 
@@ -25,11 +17,12 @@ This is an example playbook:
   roles:
     - amtega.parted
   vars:
-    parted_disks_test:
-          - device: /dev/sdb
-            number: 1
-            part_type: primary
-            state: present
+    parted_disks_sample:
+      - device: /dev/sdb
+        number: 1
+        part_type: primary
+        state: present
+
     parted_disks_load_from_hostvars: yes
 ```
 
