@@ -3,5 +3,6 @@
 - name: Converge
   hosts: molecule_hosts
   gather_facts: yes
+  become: yes
   roles:
     - amtega.parted

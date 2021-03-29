@@ -2,9 +2,9 @@
 # Role dependencies
 
 galaxy_info:
-  role_name: role
+  role_name: parted
   author: José Enrique Mourón Regueira
-  description: role description
+  description: Setup partitions through the parted module
   company: AMTEGA - Xunta de Galicia
   license: GPLv3 or EUPL
   min_ansible_version: 2.9
