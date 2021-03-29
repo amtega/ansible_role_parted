@@ -3,35 +3,83 @@
 dependency:
   name: galaxy
 driver:
-  name: docker
-lint: "${MOLECULE_SCENARIO_DIRECTORY}/linters.sh"
+  name: vagrant
+lint: "${MOLECULE_SCENARIO_DIRECTORY}/../resources/linters.sh"
 platforms:
-  - name: "centos6-${INSTANCE_UUID:-1}"
-    image: centos:6
-    groups:
-      - molecule_hosts
-      - molecule_hosts_centos
-      - molecule_hosts_centos_6
   - name: "centos7-${INSTANCE_UUID:-1}"
-    image: centos:7
+    box: centos/7
+    provider_raw_config_args:
+      - "customize
+         ['createhd',
+          '--filename', 'extradisk_centos_7.vdi',
+          '--size', 1024]"
+      - "customize
+         ['storageattach', :id,
+          '--storagectl', 'IDE',
+          '--port', 1,
+          '--device', 1,
+          '--type', 'hdd',
+          '--medium', 'extradisk_centos_7.vdi']"
+    memory: 2048
     groups:
       - molecule_hosts
       - molecule_hosts_centos
       - molecule_hosts_centos_7
+
   - name: "centos8-${INSTANCE_UUID:-1}"
-    image: centos:8
+    box: centos/8
+    provider_raw_config_args:
+      - "customize
+         ['createhd',
+          '--filename', 'extradisk_centos_8.vdi',
+          '--size', 1024]"
+      - "customize
+         ['storageattach', :id,
+          '--storagectl', 'IDE',
+          '--port', 1,
+          '--device', 1,
+          '--type', 'hdd',
+          '--medium', 'extradisk_centos_8.vdi']"
+    memory: 2048
     groups:
       - molecule_hosts
       - molecule_hosts_centos
       - molecule_hosts_centos_8
+
   - name: "fedora32-${INSTANCE_UUID:-1}"
-    image: fedora:32
+    box: fedora/32-cloud-base
+    provider_raw_config_args:
+      - "customize
+         ['createhd',
+          '--filename', 'extradisk_fedora_32.vdi',
+          '--size', 1024]"
+      - "customize
+         ['storageattach', :id,
+          '--storagectl', 'IDE',
+          '--port', 1,
+          '--device', 1,
+          '--type', 'hdd',
+          '--medium', 'extradisk_fedora_32.vdi']"
+    memory: 3072
     groups:
       - molecule_hosts
       - molecule_hosts_fedora
       - molecule_hosts_fedora_32
   - name: "fedora33-${INSTANCE_UUID:-1}"
-    image: fedora:33
+    box: fedora/33-cloud-base
+    provider_raw_config_args:
+      - "customize
+         ['createhd',
+          '--filename', 'extradisk_fedora_33.vdi',
+          '--size', 1024]"
+      - "customize
+         ['storageattach', :id,
+          '--storagectl', 'IDE',
+          '--port', 1,
+          '--device', 1,
+          '--type', 'hdd',
+          '--medium', 'extradisk_fedora_33.vdi']"
+    memory: 2048
     groups:
       - molecule_hosts
       - molecule_hosts_fedora
@@ -46,6 +94,16 @@ provisioner:
     hosts:
       molecule_hosts:
         vars:
+          ansible_password: vagrant
+          ansible_become: yes
+          ansible_become_user: root
+          ansible_become_pass: vagrant
+          parted_disks_test:
+            - device: /dev/sdb
+              number: 1
+              part_type: primary
+              state: present
+          parted_disks_load_from_hostvars: yes
       molecule_hosts_fedora:
         vars:
           ansible_python_interpreter: /usr/bin/python3
