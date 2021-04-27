@@ -1,7 +1,7 @@
 ---
 # Role tasks
 
-- name: create partitions
+- name: Create partitions
   parted:
     align: >-
       {{ parted_disk.align
