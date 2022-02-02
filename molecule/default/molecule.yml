@@ -2,6 +2,12 @@
 
 dependency:
   name: galaxy
+  enabled: yes
+  options:
+    ignore-certs: yes
+    ignore-errors: yes
+    role-file: "${MOLECULE_SCENARIO_DIRECTORY}/requirements.yml"
+    requirements-file: "${MOLECULE_SCENARIO_DIRECTORY}/requirements.yml"
 driver:
   name: vagrant
 lint: "${MOLECULE_SCENARIO_DIRECTORY}/linters.sh"
@@ -27,7 +33,7 @@ platforms:
       - molecule_hosts_centos_7
 
   - name: "centos8-${INSTANCE_UUID:-1}"
-    box: centos/8
+    box: centos/stream8
     provider_raw_config_args:
       - "customize
          ['createhd',
@@ -46,12 +52,12 @@ platforms:
       - molecule_hosts_centos
       - molecule_hosts_centos_8
 
-  - name: "fedora32-${INSTANCE_UUID:-1}"
-    box: fedora/32-cloud-base
+  - name: "fedora34-${INSTANCE_UUID:-1}"
+    box: fedora/34-cloud-base
     provider_raw_config_args:
       - "customize
          ['createhd',
-          '--filename', 'extradisk_fedora_32.vdi',
+          '--filename', 'extradisk_fedora_34.vdi',
           '--size', 1024]"
       - "customize
          ['storageattach', :id,
@@ -59,18 +65,18 @@ platforms:
           '--port', 1,
           '--device', 1,
           '--type', 'hdd',
-          '--medium', 'extradisk_fedora_32.vdi']"
+          '--medium', 'extradisk_fedora_34.vdi']"
     memory: 3072
     groups:
       - molecule_hosts
       - molecule_hosts_fedora
-      - molecule_hosts_fedora_32
-  - name: "fedora33-${INSTANCE_UUID:-1}"
-    box: fedora/33-cloud-base
+      - molecule_hosts_fedora_34
+  - name: "fedora35-${INSTANCE_UUID:-1}"
+    box: fedora/35-cloud-base
     provider_raw_config_args:
       - "customize
          ['createhd',
-          '--filename', 'extradisk_fedora_33.vdi',
+          '--filename', 'extradisk_fedora_35.vdi',
           '--size', 1024]"
       - "customize
          ['storageattach', :id,
@@ -78,17 +84,17 @@ platforms:
           '--port', 1,
           '--device', 1,
           '--type', 'hdd',
-          '--medium', 'extradisk_fedora_33.vdi']"
+          '--medium', 'extradisk_fedora_35.vdi']"
     memory: 2048
     groups:
       - molecule_hosts
       - molecule_hosts_fedora
-      - molecule_hosts_fedora_33
+      - molecule_hosts_fedora_35
 provisioner:
   name: ansible
   config_options:
     defaults:
-      callback_whitelist: profile_tasks
+      callbacks_enabled: profile_tasks
       action_plugins: $PWD/action_plugins
   inventory:
     hosts:
