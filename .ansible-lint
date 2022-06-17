@@ -1,7 +1,4 @@
 ---
 
 exclude_paths:
-  - meta
-
-kinds:
-  - vars: "molecule/**/requirements.yml"
+  - molecule/**/requirements.yml
