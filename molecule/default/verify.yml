@@ -5,6 +5,6 @@
   gather_facts: yes
   tasks:
     - name: Assert desired partition is created
-      assert:
+      ansible.builtin.assert:
         that:
           - ansible_facts.devices.sdb.partitions.sdb1 is defined
