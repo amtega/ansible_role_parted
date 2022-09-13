@@ -1,8 +1,7 @@
 ---
-# Role tasks
 
 - name: Create partitions
-  community.general.parted:    
+  community.general.parted:
     align: >-
       {{ parted_disk.align
          | default(parted_disks_defaults.align)
